@@ -8,11 +8,14 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import java.util.ArrayList;
 
 import hn.uth.pedidos.OnItemClickListener;
+import hn.uth.pedidos.R;
 import hn.uth.pedidos.database.Pedido;
 import hn.uth.pedidos.databinding.FragmentPedidosBinding;
 
@@ -56,6 +59,9 @@ public class PedidosFragment extends Fragment implements OnItemClickListener<Ped
 
     @Override
     public void onItemClick(Pedido data) {
-
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("pedido", data);
+        NavController navController = Navigation.findNavController(this.getActivity(), R.id.nav_host_fragment_content_main);
+        navController.navigate(R.id.nav_creacion, bundle);
     }
 }

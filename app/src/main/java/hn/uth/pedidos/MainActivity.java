@@ -1,28 +1,32 @@
 package hn.uth.pedidos;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.NavHostController;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import hn.uth.pedidos.databinding.ActivityMainBinding;
-import hn.uth.pedidos.ui.pedidos.PedidosFragment;
+import hn.uth.pedidos.ui.pedidos.PedidosViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
+
+    private PedidosViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        viewModel = new ViewModelProvider(this).get(PedidosViewModel.class);
 
         setSupportActionBar(binding.appBarMain.toolbar);
 
@@ -59,6 +65,27 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_delete_all) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(R.string.delete_all_dialog_message)
+                            .setTitle(R.string.delete_all_dialog_title);
+            builder.setPositiveButton(R.string.dialog_positive_button, (dialog, which) -> {
+                viewModel.deleteAll();
+                Snackbar.make(binding.appBarMain.clMain, getString(R.string.delete_all_success), Snackbar.LENGTH_LONG).show();
+            });
+            builder.setNegativeButton(R.string.dialog_negative_button, (dialog, which) -> {});
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

@@ -12,13 +12,20 @@
         tools:layout="@layout/fragment_pedidos">
 
         <action android:id="@+id/action_pedidosFragment_to_creacionFragment" app:destination="@id/nav_creacion"/>
+        <argument
+            android:name="pedido"
+            app:argType="hn.uth.pedidos.database.Pedido"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 
     <fragment
         android:id="@+id/nav_creacion"
         android:name="hn.uth.pedidos.ui.creacion.CreacionFragment"
         android:label="@string/menu_creacion"
-        tools:layout="@layout/fragment_creacion" />
+        tools:layout="@layout/fragment_creacion">
+        <action android:id="@+id/action_edit_pedido" app:destination="@id/nav_creacion"/>
+    </fragment>
 
     <fragment
         android:id="@+id/nav_slideshow"

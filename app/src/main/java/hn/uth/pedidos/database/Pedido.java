@@ -5,8 +5,10 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "pedidos_table")
-public class Pedido {
+public class Pedido implements Serializable{
 
     @PrimaryKey(autoGenerate = true)
     @NonNull
